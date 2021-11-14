@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import { Provider } from 'react-redux'
+import { useEffect } from 'react'
+import { store } from './store/rootReducer'
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { Router } from './router/Router'
+import { CommonActionCreators } from './store/commonSlice'
+
+const App = () => {
+  const { setLang } = CommonActionCreators()
+
+  useEffect(() => {
+    const lang = localStorage.getItem('lang')
+    if (lang) setLang(lang)
+  }, [setLang])
+
+  return <Router />
 }
 
-export default App;
+export default App

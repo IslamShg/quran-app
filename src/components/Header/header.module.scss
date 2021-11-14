@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 20px;
+
+  .changeLangBlock {
+    span {
+      cursor: pointer;
+      color: #4343F1;
+    }
+  }
+}
