@@ -1,0 +1,16 @@
+.verse {
+  display: flex;
+  flex-direction: column;
+  padding: 35px 30px;
+  border-radius: 10px;
+  background-color: #fff;
+
+  .verseHeader {
+    margin-bottom: 35px;
+    .verseNumber {
+      font-size: 22px;
+      font-weight: 500;
+      color: #279e8b;
+    }
+  }
+}

@@ -14,7 +14,7 @@ const NavMenu = () => {
         className={() =>
           pathname.includes('/chapters') ? styles.activeLink : styles.link
         }
-        to='/chapters/1'
+        to='/chapters/1?page=1'
       >
         <ImportContactsIcon className={styles.icon} />
       </NavLink>

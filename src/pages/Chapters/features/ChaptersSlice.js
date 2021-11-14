@@ -17,11 +17,17 @@ const fetchChapters = createAsyncThunk(
 
 const fetchVersesByChapter = createAsyncThunk(
   'chapters/fetchVersesByChapter',
-  async ({ id, lang }, { dispatch, getState }) => {
-    const { data } = await QuranApiInstance.get(
-      `verses/by_chapter/${id}?language=${lang}&words=true`
-    )
-    return { ...data, chapterId: id }
+  async ({ id, lang, page }, { getState }) => {
+    const per_page = getState().chapters.pagination.per_page
+    const { data } = await QuranApiInstance.get(`verses/by_chapter/${id}`, {
+      params: {
+        language: lang,
+        words: true,
+        per_page,
+        page,
+      },
+    })
+    return { ...data, page }
   }
 )
 
@@ -33,8 +39,12 @@ const asyncActionCreators = {
 const initialState = {
   chapters: [],
   status: 'idle',
-  pagination: {},
-  selectedChapter: null,
+  pagination: {
+    per_page: 50,
+    total_records: null,
+    total_pages: null,
+    next_page: null,
+  },
   chapterVerses: [],
 }
 
@@ -55,10 +65,17 @@ export const chaptersSlice = createSlice({
       state.status = 'completed'
     })
     builder.addCase(fetchVersesByChapter.fulfilled, (state, { payload }) => {
-      state.chapterVerses = payload.verses
-      state.selectedChapter = state.chapters.find(
-        (chapter) => chapter.id === payload.chapterId
-      )
+      state.chapterVerses =
+        +payload.page === 1
+          ? payload.verses
+          : [...state.chapterVerses, ...payload.verses]
+
+      state.pagination = {
+        ...state.pagination,
+        total_records: payload.pagination.total_records,
+        total_pages: payload.pagination.total_pages,
+        next_page: payload.pagination.next_page,
+      }
     })
   },
 })
