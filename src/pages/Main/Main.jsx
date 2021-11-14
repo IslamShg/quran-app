@@ -1,35 +1,17 @@
 import React from 'react'
-import { Navigate, NavLink, Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Header from '../../components/Header/Header'
-import ImportContactsIcon from '@mui/icons-material/ImportContacts'
-import FavoriteIcon from '@mui/icons-material/Favorite'
 
 import Chapters from '../Chapters/Chapters'
 import styles from './main.module.scss'
+import NavMenu from '../../components/NavMenu/NavMenu'
 
 const Main = () => {
   return (
     <div>
       <Header />
       <div className={styles.container}>
-        <nav className={styles.sidebarMenu}>
-          <NavLink
-            className={({ isActive }) =>
-              isActive ? styles.activeLink : styles.link
-            }
-            to='/'
-          >
-            <ImportContactsIcon className={styles.icon} />
-          </NavLink>
-          <NavLink
-            to='/savedAyahs'
-            className={({ isActive }) =>
-              isActive ? styles.activeLink : styles.link
-            }
-          >
-            <FavoriteIcon className={styles.icon} />
-          </NavLink>
-        </nav>
+        <NavMenu />
 
         <div className={styles.content}>
           <Routes>

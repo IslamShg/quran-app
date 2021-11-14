@@ -5,19 +5,11 @@ import { NavLink, useParams } from 'react-router-dom'
 import { MainActionCreators } from './features/ChaptersSlice'
 import styles from './chapters.module.scss'
 
-
-
 const Chapters = () => {
   const { chapterId } = useParams()
   const { fetchChapters, fetchVersesByChapter } = MainActionCreators()
   const { chapters, status, chapterVerses } = useSelector((s) => s.chapters)
   const { lang } = useSelector((s) => s.common)
-  const selectedChapter = chapters[chapterId - 1]
-  console.log(selectedChapter)
-
-  chapters.forEach(element => {
-    element.id === chapterId && console.log(element)
-  });
 
   useEffect(() => {
     fetchChapters({ lang })
@@ -46,7 +38,13 @@ const Chapters = () => {
                 <span className={styles.chapterName}>
                   {chapter.name_simple}
                 </span>
-                <span className={styles.chapterNameTranslated}>
+                <span
+                  style={{
+                    textTransform: lang === 'en' ? 'uppercase' : 'none',
+                    fontSize: lang === 'en' ? '14px' : '16px',
+                  }}
+                  className={styles.chapterNameTranslated}
+                >
                   {chapter.translated_name.name}
                 </span>
               </div>

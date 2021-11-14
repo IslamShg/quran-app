@@ -1,6 +1,4 @@
-import { Provider } from 'react-redux'
 import { useEffect } from 'react'
-import { store } from './store/rootReducer'
 import './App.css'
 
 import { Router } from './router/Router'
