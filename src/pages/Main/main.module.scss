@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+
+  .sidebarMenu {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px 20px 20px;
+
+    .link {
+      color: #000;
+    }
+
+    .activeLink {
+      color: blue;
+    }
+  }
+
+  .content {
+    flex: 1;
+    background-color: #F6F7F9;
+    padding: 40px 40px 0 40px;
+  }
+}
