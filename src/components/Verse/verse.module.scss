@@ -6,11 +6,17 @@
   background-color: #fff;
 
   .verseHeader {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
     margin-bottom: 35px;
     .verseNumber {
       font-size: 22px;
       font-weight: 500;
       color: #279e8b;
+    }
+    .verseArabicText {
+      font-size: 20px;
     }
   }
 }

@@ -1,44 +1,15 @@
-import {
-  createSlice,
-  bindActionCreators,
-  createAsyncThunk,
-} from '@reduxjs/toolkit'
+import { createSlice, bindActionCreators } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 
-import { QuranApiInstance } from '../../../api/index'
+import { asyncActionCreators } from './asyncActions'
 
-const fetchChapters = createAsyncThunk(
-  'chapters/fetchChapters',
-  async ({ lang }) => {
-    const { data } = await QuranApiInstance.get(`chapters?language=${lang}`)
-    return data.chapters
-  }
-)
-
-const fetchVersesByChapter = createAsyncThunk(
-  'chapters/fetchVersesByChapter',
-  async ({ id, lang, page }, { getState }) => {
-    const per_page = getState().chapters.pagination.per_page
-    const { data } = await QuranApiInstance.get(`verses/by_chapter/${id}`, {
-      params: {
-        language: lang,
-        words: true,
-        per_page,
-        page,
-      },
-    })
-    return { ...data, page }
-  }
-)
-
-const asyncActionCreators = {
-  fetchChapters,
-  fetchVersesByChapter,
-}
+const { fetchChapters, fetchVersesByChapter } =
+  asyncActionCreators
 
 const initialState = {
   chapters: [],
   status: 'idle',
+  versesStatus: 'idle',
   pagination: {
     per_page: 50,
     total_records: null,
@@ -46,6 +17,7 @@ const initialState = {
     next_page: null,
   },
   chapterVerses: [],
+  tajweedChapterVerses: []
 }
 
 export const chaptersSlice = createSlice({
@@ -60,9 +32,12 @@ export const chaptersSlice = createSlice({
     builder.addCase(fetchChapters.pending, (state) => {
       state.status = 'pending'
     })
-    builder.addCase(fetchChapters.fulfilled, (state, action) => {
-      state.chapters = action.payload
+    builder.addCase(fetchChapters.fulfilled, (state, { payload }) => {
+      state.chapters = payload
       state.status = 'completed'
+    })
+    builder.addCase(fetchVersesByChapter.pending, (state) => {
+      state.versesStatus = 'pending'
     })
     builder.addCase(fetchVersesByChapter.fulfilled, (state, { payload }) => {
       state.chapterVerses =
@@ -76,6 +51,7 @@ export const chaptersSlice = createSlice({
         total_pages: payload.pagination.total_pages,
         next_page: payload.pagination.next_page,
       }
+      state.versesStatus = 'completed'
     })
   },
 })

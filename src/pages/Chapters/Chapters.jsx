@@ -18,6 +18,7 @@ const Chapters = () => {
 
   useEffect(() => {
     fetchChapters({ lang })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lang])
 
   useEffect(() => {
@@ -26,11 +27,16 @@ const Chapters = () => {
       lang,
       page,
     })
-  }, [chapterId, lang, searchParams])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chapterId, lang, page])
 
   useEffect(() => {
     setSearchParams({ page: 1 })
   }, [setSearchParams])
+
+  const resetScroll = () => {
+    window.scrollTo(0, 0)
+  }
 
   return status === 'completed' ? (
     <div className={styles.container}>
@@ -38,6 +44,10 @@ const Chapters = () => {
         {chapters.map((chapter) => (
           <NavLink
             key={chapter.id}
+            onClick={() => {
+              resetScroll()
+              console.log('link click')
+            }}
             className={({ isActive }) =>
               isActive
                 ? `${styles.chapterLink} ${styles.active}`
