@@ -1,3 +1,64 @@
 .container {
   display: flex;
+  gap: 30px;
+  height: 100vh;
+  overflow-y: scroll;
+
+  .chaptersContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .chapterLink {
+      text-decoration: none;
+      color: #000;
+      border-radius: 6px;
+      background-color: #fff;
+
+      &.active {
+        border: 2px solid #279e8b;
+      }
+      .chapter {
+        display: flex;
+        gap: 15px;
+        padding: 20px;
+        .chapterNumber {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 27px;
+          width: 27px;
+          border-radius: 50%;
+          color: #fff;
+          font-size: 14px;
+          background-color: #279e8b;
+        }
+        .chapterInfo {
+          display: flex;
+          flex-direction: column;
+          gap: 7px;
+          padding-top: 0.5px;
+          .chapterName {
+            font-size: 17px;
+            font-weight: 500;
+            color: #000;
+            text-decoration: none;
+          }
+          .chapterNameTranslated {
+            color: #ccc;
+          }
+        }
+      }
+    }
+  }
+
+  .versesContainer {
+    display: flex;
+    flex-direction: column;
+    padding-right: 15px;
+    gap: 15px;
+    .verse {
+      background-color: #fff;
+      // margin-bottom: 15px;
+    }
+  }
 }

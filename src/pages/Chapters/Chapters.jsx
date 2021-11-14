@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 
 import { MainActionCreators } from './features/ChaptersSlice'
 import styles from './chapters.module.scss'
+
+
 
 const Chapters = () => {
   const { chapterId } = useParams()
@@ -12,6 +14,10 @@ const Chapters = () => {
   const { lang } = useSelector((s) => s.common)
   const selectedChapter = chapters[chapterId - 1]
   console.log(selectedChapter)
+
+  chapters.forEach(element => {
+    element.id === chapterId && console.log(element)
+  });
 
   useEffect(() => {
     fetchChapters({ lang })
@@ -24,18 +30,34 @@ const Chapters = () => {
   return status === 'completed' ? (
     <div className={styles.container}>
       <div className={styles.chaptersContainer}>
-        Суры
         {chapters.map((chapter) => (
-          <div key={chapter.id}>
-            <Link to={`/chapters/${chapter.id}`}>{chapter.name_simple}</Link>
-          </div>
+          <NavLink
+            key={chapter.id}
+            className={({ isActive }) =>
+              isActive
+                ? `${styles.chapterLink} ${styles.active}`
+                : `${styles.chapterLink}`
+            }
+            to={`/chapters/${chapter.id}`}
+          >
+            <div className={styles.chapter}>
+              <span className={styles.chapterNumber}>{chapter.id}</span>
+              <div className={styles.chapterInfo}>
+                <span className={styles.chapterName}>
+                  {chapter.name_simple}
+                </span>
+                <span className={styles.chapterNameTranslated}>
+                  {chapter.translated_name.name}
+                </span>
+              </div>
+            </div>
+          </NavLink>
         ))}
       </div>
 
       <div className={styles.versesContainer}>
-        <h1>{selectedChapter.translated_name.name}</h1>
         {chapterVerses.map((verse) => (
-          <div key={verse.id}>
+          <div className={styles.verse} key={verse.id}>
             {verse.words.map((word) => ' ' + word.translation.text)}
           </div>
         ))}
