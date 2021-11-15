@@ -14,6 +14,8 @@ const Verse = ({
   },
   audios,
   setAudios,
+  pausedAudioId,
+  setPausedAudioId,
 }) => {
   const [playing, setPlaying] = useState(false)
   const audio = useRef(new Audio(AUDIOS_URL + url))
@@ -24,24 +26,29 @@ const Verse = ({
       return audio.current.pause()
     }
 
-    audios.forEach(({ audio }) => audio.current.pause())
-    setAudios((prev) => [...prev])
+    audios.forEach(({ id, audio }) => {
+      if (!audio.current.paused) {
+        audio.current.pause()
+        setPausedAudioId(id)
+      }
+    })
     setPlaying(true)
     audio.current.play()
   }
 
   useEffect(() => {
-    // if (!audios.length) return
-
-    const audioObj = audios.find((audio) => audio.id === id)
-    if (audioObj && audioObj.audio.current.paused) setPlaying(false)
-  }, [audios, id])
+    if (pausedAudioId === id) setPlaying(false)
+  }, [pausedAudioId, id])
 
   useEffect(() => {
+    const { current } = audio
     setAudios((prev) => [...prev, { id, audio }])
-    audio.current.addEventListener('ended', () => setPlaying(false))
-    return () =>
-      audio.current.removeEventListener('ended', () => setPlaying(false))
+
+    current.addEventListener('ended', () => setPlaying(false))
+    return () => {
+      current.pause()
+      current.removeEventListener('ended', () => setPlaying(false))
+    }
   }, [audio, id, setAudios])
 
   return (

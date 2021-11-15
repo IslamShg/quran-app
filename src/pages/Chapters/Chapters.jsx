@@ -8,6 +8,7 @@ import Verse from '../../components/Verse/Verse'
 
 const Chapters = () => {
   const [audios, setAudios] = useState([])
+  const [pausedAudioId, setPausedAudioId] = useState(true)
   const { chapterId } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
   const { fetchChapters, fetchVersesByChapter } = ChaptersActionCreators()
@@ -80,6 +81,8 @@ const Chapters = () => {
                 setAudios={setAudios}
                 key={verse.id}
                 verse={verse}
+                pausedAudioId={pausedAudioId}
+                setPausedAudioId={setPausedAudioId}
               />
             ))
           : 'Loading'}
