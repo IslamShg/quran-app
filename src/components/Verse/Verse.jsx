@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
 
@@ -10,24 +10,46 @@ const Verse = ({
     words,
     verse_key,
     audio: { url },
+    id,
   },
+  audios,
+  setAudios,
+  pausedAudioId,
+  setPausedAudioId,
 }) => {
   const [playing, setPlaying] = useState(false)
-  const audio = useMemo(() => new Audio(AUDIOS_URL + url), [url])
+  const audio = useRef(new Audio(AUDIOS_URL + url))
 
   const playVerse = () => {
     if (playing) {
       setPlaying(false)
-      return audio.pause()
+      return audio.current.pause()
     }
+
+    audios.forEach(({ id, audio }) => {
+      if (!audio.current.paused) {
+        audio.current.pause()
+        setPausedAudioId(id)
+      }
+    })
     setPlaying(true)
-    audio.play()
+    audio.current.play()
   }
 
   useEffect(() => {
-    audio.addEventListener('ended', () => setPlaying(false))
-    return () => audio.removeEventListener('ended', () => setPlaying(false))
-  }, [audio])
+    if (pausedAudioId === id) setPlaying(false)
+  }, [pausedAudioId, id])
+
+  useEffect(() => {
+    const { current } = audio
+    setAudios((prev) => [...prev, { id, audio }])
+
+    current.addEventListener('ended', () => setPlaying(false))
+    return () => {
+      current.pause()
+      current.removeEventListener('ended', () => setPlaying(false))
+    }
+  }, [audio, id, setAudios])
 
   return (
     <div className={styles.verse}>
@@ -57,4 +79,4 @@ const Verse = ({
   )
 }
 
-export default Verse
+export default React.memo(Verse)

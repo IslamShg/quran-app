@@ -11,7 +11,7 @@ const initialState = {
   status: 'idle',
   versesStatus: 'idle',
   pagination: {
-    per_page: 50,
+    per_page: 25,
     total_records: null,
     total_pages: null,
     next_page: null,
@@ -56,7 +56,7 @@ export const chaptersSlice = createSlice({
   },
 })
 
-export const MainActionCreators = () => {
+export const ChaptersActionCreators = () => {
   const dispatch = useDispatch()
   return bindActionCreators(
     { ...chaptersSlice.actions, ...asyncActionCreators },
