@@ -1,0 +1,34 @@
+.verse {
+  display: flex;
+  flex-direction: column;
+  padding: 35px 30px 25px;
+  border-radius: 10px;
+  background-color: #fff;
+
+  .verseHeader {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 35px;
+    .verseNumber {
+      font-size: 22px;
+      font-weight: 500;
+      color: #279e8b;
+    }
+    .verseArabicText {
+      font-size: 20px;
+    }
+  }
+
+  .verseFooter {
+    border-top: 1px solid #EDEFF0;
+    margin-top: 40px;
+    padding-top: 20px;
+
+    .resumeVerseIcon {
+      font-size: 25px;
+      cursor: pointer;
+      color: #adbac0;
+    }
+  }
+}

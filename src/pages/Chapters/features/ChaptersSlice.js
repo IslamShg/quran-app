@@ -1,41 +1,23 @@
-import {
-  createSlice,
-  bindActionCreators,
-  createAsyncThunk,
-} from '@reduxjs/toolkit'
+import { createSlice, bindActionCreators } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 
-import { QuranApiInstance } from '../../../api/index'
+import { asyncActionCreators } from './asyncActions'
 
-const fetchChapters = createAsyncThunk(
-  'chapters/fetchChapters',
-  async ({ lang }) => {
-    const { data } = await QuranApiInstance.get(`chapters?language=${lang}`)
-    return data.chapters
-  }
-)
-
-const fetchVersesByChapter = createAsyncThunk(
-  'chapters/fetchVersesByChapter',
-  async ({ id, lang }, { dispatch, getState }) => {
-    const { data } = await QuranApiInstance.get(
-      `verses/by_chapter/${id}?language=${lang}&words=true`
-    )
-    return { ...data, chapterId: id }
-  }
-)
-
-const asyncActionCreators = {
-  fetchChapters,
-  fetchVersesByChapter,
-}
+const { fetchChapters, fetchVersesByChapter } =
+  asyncActionCreators
 
 const initialState = {
   chapters: [],
   status: 'idle',
-  pagination: {},
-  selectedChapter: null,
+  versesStatus: 'idle',
+  pagination: {
+    per_page: 50,
+    total_records: null,
+    total_pages: null,
+    next_page: null,
+  },
   chapterVerses: [],
+  tajweedChapterVerses: []
 }
 
 export const chaptersSlice = createSlice({
@@ -50,15 +32,26 @@ export const chaptersSlice = createSlice({
     builder.addCase(fetchChapters.pending, (state) => {
       state.status = 'pending'
     })
-    builder.addCase(fetchChapters.fulfilled, (state, action) => {
-      state.chapters = action.payload
+    builder.addCase(fetchChapters.fulfilled, (state, { payload }) => {
+      state.chapters = payload
       state.status = 'completed'
     })
+    builder.addCase(fetchVersesByChapter.pending, (state) => {
+      state.versesStatus = 'pending'
+    })
     builder.addCase(fetchVersesByChapter.fulfilled, (state, { payload }) => {
-      state.chapterVerses = payload.verses
-      state.selectedChapter = state.chapters.find(
-        (chapter) => chapter.id === payload.chapterId
-      )
+      state.chapterVerses =
+        +payload.page === 1
+          ? payload.verses
+          : [...state.chapterVerses, ...payload.verses]
+
+      state.pagination = {
+        ...state.pagination,
+        total_records: payload.pagination.total_records,
+        total_pages: payload.pagination.total_pages,
+        next_page: payload.pagination.next_page,
+      }
+      state.versesStatus = 'completed'
     })
   },
 })
