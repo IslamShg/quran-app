@@ -5,4 +5,9 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Roboto', serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow: hidden;
 }
