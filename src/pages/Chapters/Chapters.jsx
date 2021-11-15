@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { NavLink, useParams, useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 
 import { ChaptersActionCreators } from './features/ChaptersSlice'
 import styles from './chapters.module.scss'
 import Verse from '../../components/Verse/Verse'
+import ChaptersList from '../../components/ChaptersList/ChaptersList'
 
 const Chapters = () => {
   const [audios, setAudios] = useState([])
@@ -45,53 +46,21 @@ const Chapters = () => {
   return status === 'completed' ? (
     <div className={styles.container}>
       <div className={styles.chaptersContainer}>
-        {chapters.map((chapter) => (
-          <NavLink
-            key={chapter.id}
-            onClick={() => {
-              setAudios([])
-            }}
-            className={({ isActive }) =>
-              isActive
-                ? `${styles.chapterLink} ${styles.active}`
-                : `${styles.chapterLink}`
-            }
-            to={`/chapters/${chapter.id}?page=1`}
-          >
-            <div className={styles.chapter}>
-              <span className={styles.chapterNumber}>{chapter.id}</span>
-              <div className={styles.chapterInfo}>
-                <span className={styles.chapterName}>
-                  {chapter.name_simple}
-                </span>
-                <span
-                  style={{
-                    textTransform: lang === 'en' ? 'uppercase' : 'none',
-                    fontSize: lang === 'en' ? '14px' : '16px',
-                  }}
-                  className={styles.chapterNameTranslated}
-                >
-                  {chapter.translated_name.name}
-                </span>
-              </div>
-            </div>
-          </NavLink>
-        ))}
+        <ChaptersList chapters={chapters} setAudios={setAudios} />
       </div>
 
       <div className={styles.versesContainer}>
-        {versesStatus === 'completed'
-          ? chapterVerses.map((verse) => (
-              <Verse
-                audios={audios}
-                setAudios={setAudios}
-                key={verse.id}
-                verse={verse}
-                pausedAudioId={pausedAudioId}
-                setPausedAudioId={setPausedAudioId}
-              />
-            ))
-          : 'Loading'}
+        {chapterVerses.map((verse) => (
+          <Verse
+            audios={audios}
+            setAudios={setAudios}
+            key={verse.id}
+            verse={verse}
+            pausedAudioId={pausedAudioId}
+            setPausedAudioId={setPausedAudioId}
+          />
+        ))}
+        {versesStatus === 'loading' && <div>Загрузка</div>}
 
         {!!pagination.next_page && (
           <span onClick={() => setSearchParams({ page: +page + 1 })}>
