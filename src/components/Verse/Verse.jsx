@@ -31,10 +31,10 @@ const Verse = ({
   }
 
   useEffect(() => {
-    if (!audios.length) return
+    // if (!audios.length) return
 
-    const { audio } = audios.find((audio) => audio.id === id)
-    if (audio.current.paused) setPlaying(false)
+    const audioObj = audios.find((audio) => audio.id === id)
+    if (audioObj && audioObj.audio.current.paused) setPlaying(false)
   }, [audios, id])
 
   useEffect(() => {

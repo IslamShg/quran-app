@@ -16,8 +16,6 @@ const Chapters = () => {
   const { lang } = useSelector((s) => s.common)
   const page = searchParams.get('page')
 
-  console.log(audios)
-
   useEffect(() => {
     fetchChapters({ lang })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,10 +34,6 @@ const Chapters = () => {
     setSearchParams({ page: 1 })
   }, [setSearchParams])
 
-  const resetScroll = () => {
-    window.scrollTo(0, 0)
-  }
-
   return status === 'completed' ? (
     <div className={styles.container}>
       <div className={styles.chaptersContainer}>
@@ -47,8 +41,8 @@ const Chapters = () => {
           <NavLink
             key={chapter.id}
             onClick={() => {
-              resetScroll()
-              console.log('link click')
+              // audios.forEach(({ audio }) => audio.current.pause())
+              setAudios([])
             }}
             className={({ isActive }) =>
               isActive
