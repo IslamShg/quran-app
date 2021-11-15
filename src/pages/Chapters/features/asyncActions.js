@@ -20,6 +20,7 @@ const fetchVersesByChapter = createAsyncThunk(
         per_page,
         page,
         word_fields: 'text_uthmani, text_indopak, text_uhtimani_tajweed',
+        audio: 7,
       },
     })
     return { ...data, page }
