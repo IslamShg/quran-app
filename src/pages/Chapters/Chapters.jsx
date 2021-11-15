@@ -10,9 +10,8 @@ const Chapters = () => {
   const { chapterId } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
   const { fetchChapters, fetchVersesByChapter } = MainActionCreators()
-  const { chapters, status, chapterVerses, pagination } = useSelector(
-    (s) => s.chapters
-  )
+  const { chapters, status, chapterVerses, pagination, versesStatus } =
+    useSelector((s) => s.chapters)
   const { lang } = useSelector((s) => s.common)
   const page = searchParams.get('page')
 
@@ -77,9 +76,9 @@ const Chapters = () => {
       </div>
 
       <div className={styles.versesContainer}>
-        {chapterVerses.map((verse) => (
+        {versesStatus === 'completed' ? chapterVerses.map((verse) => (
           <Verse key={verse.id} verse={verse} />
-        ))}
+        )) : 'Loading'}
 
         {!!pagination.next_page && (
           <span onClick={() => setSearchParams({ page: +page + 1 })}>
