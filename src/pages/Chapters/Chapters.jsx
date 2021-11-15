@@ -11,6 +11,7 @@ const Chapters = () => {
   const [audios, setAudios] = useState([])
   const [pausedAudioId, setPausedAudioId] = useState(true)
   const mount = useRef(true)
+  const versesRef = useRef()
 
   const { fetchChapters, fetchVersesByChapter } = ChaptersActionCreators()
   const { chapters, status, chapterVerses, pagination, versesStatus } =
@@ -22,6 +23,7 @@ const Chapters = () => {
   const page = searchParams.get('page')
 
   useEffect(() => {
+    versesRef.current && versesRef.current.scrollTo(0, 0)
     if (mount.current && chapters.length) mount.current = false
     else {
       fetchChapters({ lang })
@@ -46,10 +48,14 @@ const Chapters = () => {
   return status === 'completed' ? (
     <div className={styles.container}>
       <div className={styles.chaptersContainer}>
-        <ChaptersList chapters={chapters} setAudios={setAudios} />
+        <ChaptersList
+          versesRef={versesRef}
+          chapters={chapters}
+          setAudios={setAudios}
+        />
       </div>
 
-      <div className={styles.versesContainer}>
+      <div ref={versesRef} className={styles.versesContainer}>
         {chapterVerses.map((verse) => (
           <Verse
             audios={audios}

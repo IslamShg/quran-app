@@ -4,13 +4,14 @@ import { useSelector } from 'react-redux'
 
 import styles from './navChapter.module.scss'
 
-const NavChapter = ({ chapter, setAudios }) => {
+const NavChapter = ({ chapter, setAudios, versesRef }) => {
   const { lang } = useSelector((s) => s.common)
 
   return (
     <NavLink
       key={chapter.id}
       onClick={() => {
+        versesRef.current && versesRef.current.scrollTo(0, 0)
         setAudios([])
       }}
       className={({ isActive }) =>

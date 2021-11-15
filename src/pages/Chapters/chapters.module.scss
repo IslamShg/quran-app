@@ -1,15 +1,17 @@
 .container {
   display: flex;
   gap: 30px;
-  height: 100vh;
-  overflow-y: scroll;
 
   .chaptersContainer {
     display: flex;
     flex-direction: column;
     gap: 10px;
     flex: 1;
+    padding-right: 20px;
+    height: calc(100vh - 80px);
+    overflow-y: scroll;
     max-width: 280px;
+    padding-bottom: 80px;
   }
 
   .versesContainer {
@@ -18,5 +20,8 @@
     flex-direction: column;
     padding-right: 30px;
     gap: 15px;
+    height: calc(100vh - 80px);
+    overflow-y: scroll;
+    padding-bottom: 80px;
   }
 }

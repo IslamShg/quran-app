@@ -6,3 +6,7 @@
   box-sizing: border-box;
   font-family: 'Roboto', serif;
 }
+
+body {
+  overflow: hidden;
+}
