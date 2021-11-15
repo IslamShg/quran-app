@@ -1,23 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink, useParams, useSearchParams } from 'react-router-dom'
 
-import { MainActionCreators } from './features/ChaptersSlice'
+import { ChaptersActionCreators } from './features/ChaptersSlice'
 import styles from './chapters.module.scss'
 import Verse from '../../components/Verse/Verse'
 
 const Chapters = () => {
+  const [audios, setAudios] = useState([])
   const { chapterId } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
-  const { fetchChapters, fetchVersesByChapter } = MainActionCreators()
+  const { fetchChapters, fetchVersesByChapter } = ChaptersActionCreators()
   const { chapters, status, chapterVerses, pagination, versesStatus } =
     useSelector((s) => s.chapters)
   const { lang } = useSelector((s) => s.common)
   const page = searchParams.get('page')
 
+  console.log(audios)
+
   useEffect(() => {
     fetchChapters({ lang })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lang])
 
   useEffect(() => {
@@ -26,7 +29,7 @@ const Chapters = () => {
       lang,
       page,
     })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chapterId, lang, page])
 
   useEffect(() => {
@@ -76,9 +79,16 @@ const Chapters = () => {
       </div>
 
       <div className={styles.versesContainer}>
-        {versesStatus === 'completed' ? chapterVerses.map((verse) => (
-          <Verse key={verse.id} verse={verse} />
-        )) : 'Loading'}
+        {versesStatus === 'completed'
+          ? chapterVerses.map((verse) => (
+              <Verse
+                audios={audios}
+                setAudios={setAudios}
+                key={verse.id}
+                verse={verse}
+              />
+            ))
+          : 'Loading'}
 
         {!!pagination.next_page && (
           <span onClick={() => setSearchParams({ page: +page + 1 })}>

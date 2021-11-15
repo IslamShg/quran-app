@@ -56,7 +56,7 @@ export const chaptersSlice = createSlice({
   },
 })
 
-export const MainActionCreators = () => {
+export const ChaptersActionCreators = () => {
   const dispatch = useDispatch()
   return bindActionCreators(
     { ...chaptersSlice.actions, ...asyncActionCreators },
