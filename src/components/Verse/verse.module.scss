@@ -6,10 +6,6 @@
   background-color: #fff;
   transition: 0.5s ease-in-out;
 
-  &.active {
-    border: 1px solid #279e8b;
-  }
-
   // #e9b75e
   .verseHeader {
     display: flex;
@@ -42,19 +38,24 @@
       }
       .arrowIcon {
         font-size: 24px;
+        
       }
     }
   }
-
+  
   .verseFooter {
     border-top: 1px solid #edeff0;
     margin-top: 40px;
     padding-top: 20px;
-
+    
     .resumeVerseIcon {
       font-size: 25px;
       cursor: pointer;
       color: #adbac0;
     }
+  }
+  
+  &.active .verseFooter .resumeVerseIcon {
+    color: #279e8b;
   }
 }
