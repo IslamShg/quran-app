@@ -4,9 +4,12 @@
   padding: 35px 30px 25px;
   border-radius: 10px;
   background-color: #fff;
-  transition: 0.5s ease-in-out;
+  transition: 0.2s ease-in-out;
+  box-shadow: 4px 5px 5px -1px rgb(34 60 80 / 20%);
 
-  // #e9b75e
+  &.active {
+  }
+
   .verseHeader {
     display: flex;
     justify-content: space-between;
@@ -38,23 +41,22 @@
       }
       .arrowIcon {
         font-size: 24px;
-        
       }
     }
   }
-  
+
   .verseFooter {
     border-top: 1px solid #edeff0;
     margin-top: 40px;
     padding-top: 20px;
-    
+
     .resumeVerseIcon {
-      font-size: 25px;
+      font-size: 28px;
       cursor: pointer;
       color: #adbac0;
     }
   }
-  
+
   &.active .verseFooter .resumeVerseIcon {
     color: #279e8b;
   }
