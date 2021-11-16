@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import DOMPurify from 'dompurify'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
