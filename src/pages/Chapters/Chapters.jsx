@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams, useSearchParams } from 'react-router-dom'
@@ -14,7 +15,8 @@ const Chapters = () => {
   const mount = useRef(true)
   const versesRef = useRef()
 
-  const { fetchChapters, fetchVersesByChapter } = ChaptersActionCreators()
+  const { fetchChapters, fetchVersesByChapter, setVersesScroll } =
+    ChaptersActionCreators()
   const {
     chapters,
     status,
@@ -22,7 +24,7 @@ const Chapters = () => {
     pagination,
     versesStatus,
     selectedVerse,
-    versesContainerScroll
+    versesContainerScroll,
   } = useSelector((s) => s.chapters)
   const { lang } = useSelector((s) => s.common)
 
@@ -37,7 +39,6 @@ const Chapters = () => {
       fetchChapters({ lang })
       mount.current = false
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lang])
 
   useEffect(() => {
@@ -47,12 +48,15 @@ const Chapters = () => {
   }, [versesContainerScroll, selectedVerse])
 
   useEffect(() => {
+    return () => setVersesScroll(0)
+  }, [])
+
+  useEffect(() => {
     fetchVersesByChapter({
       id: chapterId,
       lang,
       page,
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chapterId, lang, page])
 
   useEffect(() => {
