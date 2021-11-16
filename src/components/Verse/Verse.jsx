@@ -99,6 +99,7 @@ const Verse = ({
           onClick={() => {
             setVersesScroll(versesRef.current.scrollTop)
             selectVerse(verse)
+            setAutoPlayedAudId(null)
           }}
           className={styles.tafseerLink}
           to=''
