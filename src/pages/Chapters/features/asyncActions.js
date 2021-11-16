@@ -21,6 +21,7 @@ const fetchVersesByChapter = createAsyncThunk(
         page,
         word_fields: 'text_uthmani, text_indopak, text_uhtimani_tajweed',
         audio: 7,
+        tafsirs: '168'
       },
     })
     return { ...data, page }

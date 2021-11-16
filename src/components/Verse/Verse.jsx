@@ -1,24 +1,57 @@
 import React, { useEffect, useRef, useState } from 'react'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
+import { useSelector } from 'react-redux'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
 
 import styles from './verse.module.scss'
 import { AUDIOS_URL } from '../../api'
+import { ChaptersActionCreators } from '../../pages/Chapters/features/ChaptersSlice'
 
 const Verse = ({
-  verse: {
-    words,
-    verse_key,
-    audio: { url },
-    id,
-  },
+  verse,
   audios,
   setAudios,
   pausedAudioId,
   setPausedAudioId,
+  versesRef,
 }) => {
+  const {
+    words,
+    verse_key,
+    audio: { url },
+    id,
+  } = verse
   const [playing, setPlaying] = useState(false)
+  const [ended, setEnded] = useState()
   const audio = useRef(new Audio(AUDIOS_URL + url))
+
+  const { setAutoPlayedAudId, selectVerse, setVersesScroll } =
+    ChaptersActionCreators()
+  const { autoPlayedAudioId } = useSelector((s) => s.chapters)
+
+  useEffect(() => {
+    if (pausedAudioId === id) setPlaying(false)
+  }, [pausedAudioId, id])
+
+  useEffect(() => {
+    if (autoPlayedAudioId === id) playVerse()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoPlayedAudioId])
+
+  useEffect(() => {
+    const { current } = audio
+    setAudios((prev) => [...prev, { id, audio }])
+
+    current.addEventListener('ended', () => {
+      setPlaying(false)
+      setEnded(true)
+    })
+    return () => {
+      current.pause()
+      current.removeEventListener('ended', () => setPlaying(false))
+    }
+  }, [audio, id, setAudios])
 
   const playVerse = () => {
     if (playing) {
@@ -36,23 +69,24 @@ const Verse = ({
     audio.current.play()
   }
 
-  useEffect(() => {
-    if (pausedAudioId === id) setPlaying(false)
-  }, [pausedAudioId, id])
+  const playNext = () => {
+    const idx = audios.findIndex((audio) => audio.id === id)
+    const nextAudio = idx + 1 === audios.length ? null : audios[idx + 1]
+    if (!nextAudio) return
+    setAutoPlayedAudId(nextAudio.id)
+  }
 
   useEffect(() => {
-    const { current } = audio
-    setAudios((prev) => [...prev, { id, audio }])
-
-    current.addEventListener('ended', () => setPlaying(false))
-    return () => {
-      current.pause()
-      current.removeEventListener('ended', () => setPlaying(false))
+    if (ended) {
+      playNext()
     }
-  }, [audio, id, setAudios])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ended])
 
   return (
-    <div className={styles.verse}>
+    <div
+      className={!playing ? styles.verse : `${styles.verse} ${styles.active}`}
+    >
       <div className={styles.verseHeader}>
         <span className={styles.verseNumber}>{verse_key}</span>
         <span className={styles.verseArabicText}>
@@ -61,9 +95,22 @@ const Verse = ({
       </div>
 
       <div className={styles.verseBody}>
-        {words.map((word, index) =>
-          index === words.length - 1 ? '.' : ' ' + word.translation.text
-        )}
+        <div
+          onClick={() => {
+            setVersesScroll(versesRef.current.scrollTop)
+            selectVerse(verse)
+          }}
+          className={styles.tafseerLink}
+          to=''
+        >
+          <span>SEE TAFSEER</span>
+          <ArrowRightAltIcon className={styles.arrowIcon} />
+        </div>
+        <span className={styles.verseTranslation}>
+          {words.map((word, index) =>
+            index === words.length - 1 ? '.' : ' ' + word.translation.text
+          )}
+        </span>
       </div>
 
       <div className={styles.verseFooter}>
