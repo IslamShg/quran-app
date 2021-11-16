@@ -4,7 +4,8 @@
   padding: 35px 30px 25px;
   border-radius: 10px;
   background-color: #fff;
-
+  transition: 0.5s ease-in-out;
+  
   .verseHeader {
     display: flex;
     justify-content: space-between;
@@ -19,9 +20,12 @@
       font-size: 20px;
     }
   }
-
+  
+  &.active .verseFooter {
+    border-top: 1px solid #279e8b;
+  }
   .verseFooter {
-    border-top: 1px solid #EDEFF0;
+    border-top: 1px solid #edeff0;
     margin-top: 40px;
     padding-top: 20px;
 
