@@ -6,6 +6,7 @@ import { ChaptersActionCreators } from './features/ChaptersSlice'
 import styles from './chapters.module.scss'
 import Verse from '../../components/Verse/Verse'
 import ChaptersList from '../../components/ChaptersList/ChaptersList'
+import TafsirBlock from '../../components/TafsirBlock/TafsirBlock'
 
 const Chapters = () => {
   const [audios, setAudios] = useState([])
@@ -14,8 +15,15 @@ const Chapters = () => {
   const versesRef = useRef()
 
   const { fetchChapters, fetchVersesByChapter } = ChaptersActionCreators()
-  const { chapters, status, chapterVerses, pagination, versesStatus } =
-    useSelector((s) => s.chapters)
+  const {
+    chapters,
+    status,
+    chapterVerses,
+    pagination,
+    versesStatus,
+    selectedVerse,
+    versesContainerScroll
+  } = useSelector((s) => s.chapters)
   const { lang } = useSelector((s) => s.common)
 
   const { chapterId } = useParams()
@@ -31,6 +39,12 @@ const Chapters = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lang])
+
+  useEffect(() => {
+    if (versesContainerScroll) {
+      versesRef.current.scrollTo(0, versesContainerScroll)
+    }
+  }, [versesContainerScroll, selectedVerse])
 
   useEffect(() => {
     fetchVersesByChapter({
@@ -56,22 +70,29 @@ const Chapters = () => {
       </div>
 
       <div ref={versesRef} className={styles.versesContainer}>
-        {chapterVerses.map((verse) => (
-          <Verse
-            audios={audios}
-            setAudios={setAudios}
-            key={verse.id}
-            verse={verse}
-            pausedAudioId={pausedAudioId}
-            setPausedAudioId={setPausedAudioId}
-          />
-        ))}
-        {versesStatus === 'loading' && <div>Загрузка</div>}
+        {!selectedVerse ? (
+          <>
+            {chapterVerses.map((verse) => (
+              <Verse
+                audios={audios}
+                setAudios={setAudios}
+                key={verse.id}
+                verse={verse}
+                pausedAudioId={pausedAudioId}
+                setPausedAudioId={setPausedAudioId}
+                versesRef={versesRef}
+              />
+            ))}
 
-        {!!pagination.next_page && (
-          <span onClick={() => setSearchParams({ page: +page + 1 })}>
-            Загрузить еще
-          </span>
+            {versesStatus === 'loading' && <div>Загрузка</div>}
+            {!!pagination.next_page && (
+              <span onClick={() => setSearchParams({ page: +page + 1 })}>
+                Загрузить еще
+              </span>
+            )}
+          </>
+        ) : (
+          <TafsirBlock versesRef={versesRef} />
         )}
       </div>
     </div>
