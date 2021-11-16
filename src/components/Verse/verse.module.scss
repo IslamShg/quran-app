@@ -5,7 +5,12 @@
   border-radius: 10px;
   background-color: #fff;
   transition: 0.5s ease-in-out;
-  
+
+  &.active {
+    border: 1px solid #279e8b;
+  }
+
+  // #e9b75e
   .verseHeader {
     display: flex;
     justify-content: space-between;
@@ -20,10 +25,27 @@
       font-size: 20px;
     }
   }
-  
-  &.active .verseFooter {
-    border-top: 1px solid #279e8b;
+
+  .verseBody {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    .tafseerLink {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      gap: 5px;
+      color: #e9b75e;
+      cursor: pointer;
+      span {
+        font-weight: 400;
+      }
+      .arrowIcon {
+        font-size: 24px;
+      }
+    }
   }
+
   .verseFooter {
     border-top: 1px solid #edeff0;
     margin-top: 40px;

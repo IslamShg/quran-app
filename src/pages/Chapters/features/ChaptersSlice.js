@@ -18,6 +18,8 @@ const initialState = {
   chapterVerses: [],
   tajweedChapterVerses: [],
   autoPlayedAudioId: null,
+  selectedVerse: null,
+  versesContainerScroll: null
 }
 
 export const chaptersSlice = createSlice({
@@ -30,6 +32,12 @@ export const chaptersSlice = createSlice({
     setAutoPlayedAudId(state, { payload }) {
       state.autoPlayedAudioId = payload
     },
+    selectVerse(state, { payload }) {
+      state.selectedVerse = payload
+    },
+    setVersesScroll(state, { payload }) {
+      state.versesContainerScroll = payload
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchChapters.pending, (state) => {

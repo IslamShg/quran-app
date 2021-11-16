@@ -2,28 +2,32 @@ import React, { useEffect, useRef, useState } from 'react'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useSelector } from 'react-redux'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
 
 import styles from './verse.module.scss'
 import { AUDIOS_URL } from '../../api'
 import { ChaptersActionCreators } from '../../pages/Chapters/features/ChaptersSlice'
 
 const Verse = ({
-  verse: {
-    words,
-    verse_key,
-    audio: { url },
-    id,
-  },
+  verse,
   audios,
   setAudios,
   pausedAudioId,
   setPausedAudioId,
+  versesRef,
 }) => {
+  const {
+    words,
+    verse_key,
+    audio: { url },
+    id,
+  } = verse
   const [playing, setPlaying] = useState(false)
   const [ended, setEnded] = useState()
   const audio = useRef(new Audio(AUDIOS_URL + url))
 
-  const { setAutoPlayedAudId } = ChaptersActionCreators()
+  const { setAutoPlayedAudId, selectVerse, setVersesScroll } =
+    ChaptersActionCreators()
   const { autoPlayedAudioId } = useSelector((s) => s.chapters)
 
   useEffect(() => {
@@ -32,7 +36,7 @@ const Verse = ({
 
   useEffect(() => {
     if (autoPlayedAudioId === id) playVerse()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoPlayedAudioId])
 
   useEffect(() => {
@@ -91,9 +95,22 @@ const Verse = ({
       </div>
 
       <div className={styles.verseBody}>
-        {words.map((word, index) =>
-          index === words.length - 1 ? '.' : ' ' + word.translation.text
-        )}
+        <div
+          onClick={() => {
+            setVersesScroll(versesRef.current.scrollTop)
+            selectVerse(verse)
+          }}
+          className={styles.tafseerLink}
+          to=''
+        >
+          <span>SEE TAFSEER</span>
+          <ArrowRightAltIcon className={styles.arrowIcon} />
+        </div>
+        <span className={styles.verseTranslation}>
+          {words.map((word, index) =>
+            index === words.length - 1 ? '.' : ' ' + word.translation.text
+          )}
+        </span>
       </div>
 
       <div className={styles.verseFooter}>
