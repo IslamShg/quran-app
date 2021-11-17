@@ -12,7 +12,9 @@ const fetchChapters = createAsyncThunk(
 const fetchVersesByChapter = createAsyncThunk(
   'chapters/fetchVersesByChapter',
   async ({ id, lang, page }, { getState }) => {
+    const { selectedReciterId } = getState().common
     const per_page = getState().chapters.pagination.per_page
+
     const { data } = await QuranApiInstance.get(`verses/by_chapter/${id}`, {
       params: {
         language: lang,
@@ -20,8 +22,8 @@ const fetchVersesByChapter = createAsyncThunk(
         per_page,
         page,
         word_fields: 'text_uthmani, text_indopak, text_uhtimani_tajweed',
-        audio: 7,
-        tafsirs: '168'
+        audio: selectedReciterId,
+        tafsirs: '168',
       },
     })
     return { ...data, page }

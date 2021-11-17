@@ -26,7 +26,7 @@ const Chapters = () => {
     selectedVerse,
     versesContainerScroll,
   } = useSelector((s) => s.chapters)
-  const { lang } = useSelector((s) => s.common)
+  const { lang, selectedReciterId } = useSelector((s) => s.common)
 
   const { chapterId } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -57,7 +57,7 @@ const Chapters = () => {
       lang,
       page,
     })
-  }, [chapterId, lang, page])
+  }, [chapterId, lang, page, selectedReciterId])
 
   useEffect(() => {
     setSearchParams({ page: 1 })
