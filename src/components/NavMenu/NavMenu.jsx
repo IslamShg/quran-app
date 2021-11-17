@@ -12,7 +12,9 @@ const NavMenu = () => {
     <nav className={styles.sidebarMenu}>
       <NavLink
         className={() =>
-          pathname.includes('/chapters') ? styles.activeLink : styles.link
+          pathname.includes('/chapters')
+            ? `${styles.link} ${styles.activeLink}`
+            : styles.link
         }
         to='/chapters/1?page=1'
       >
@@ -21,7 +23,7 @@ const NavMenu = () => {
       <NavLink
         to='/savedAyahs'
         className={({ isActive }) =>
-          isActive ? styles.activeLink : styles.link
+          isActive ? `${styles.link} ${styles.activeLink}` : styles.link
         }
       >
         <FavoriteIcon className={styles.icon} />
