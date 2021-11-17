@@ -1,14 +1,54 @@
 .container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  // align-items: center;
   height: 60px;
-  padding: 0 20px;
+  padding: 0 20px 0 0;
+
+  .leftSquare {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 65px;
+    background: #279e8b;
+    .bookIcon {
+      color: #fff;
+      font-size: 32px;
+    }
+    img {
+      width: 43px;
+    }
+  }
 
   .changeLangBlock {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 50px;
+    .inputBlock {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      .searchIcon {
+        font-size: 28px;
+        color: #279e8b;
+      }
+      input {
+        font-size: 16px;
+        border: none;
+        outline: none;
+        color: #909da5;
+
+        &::placeholder {
+          color: #b0bec7;
+        }
+      }
+    }
     span {
       cursor: pointer;
-      color: #4343F1;
+      color: #279e8b;
+      font-weight: 500;
     }
   }
 }

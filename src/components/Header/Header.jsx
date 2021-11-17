@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
+import QuranIcon from '../../assets/images/icons8-quran-64.png'
+import SearchIcon from '@mui/icons-material/Search'
 
-import { CommonActionCreators } from '../../store/commonSlice'
 import styles from './header.module.scss'
 
 const Header = () => {
+  const [searchInput, setSearchInput] = useState(null)
   // const { setLang } = CommonActionCreators()
 
   // const setSiteLang = (lang) => {
@@ -11,12 +13,22 @@ const Header = () => {
   //   localStorage.setItem('lang', lang)
   // }
 
+  const handleSearch = () => {}
+
   return (
     <div className={styles.container}>
-      <span>Quran</span>
+      <div className={styles.leftSquare}>
+        <img src={QuranIcon} alt='' />
+      </div>
       <div className={styles.changeLangBlock}>
-        {/* <span onClick={() => setSiteLang('ru')}>RU</span> |{' '} */}
-        {/* <span onClick={() => setSiteLang('en')}>EN</span> */}
+        <div className={styles.inputBlock}>
+          <SearchIcon onClick={handleSearch} className={styles.searchIcon} />
+          <input
+            value={searchInput}
+            onChange={({ target }) => setSearchInput(target.value)}
+            placeholder={'Search here for surah, ayah'}
+          />
+        </div>
         <span>EN</span>
       </div>
     </div>
