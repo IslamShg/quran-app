@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useSelector } from 'react-redux'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
@@ -24,7 +24,7 @@ const Verse = ({
   } = verse
   const [playing, setPlaying] = useState(false)
   const [ended, setEnded] = useState()
-  const audio = useMemo(() => new Audio(AUDIOS_URL + url), [verse])
+  const audio = useMemo(() => new Audio(AUDIOS_URL + url), [url])
 
   const { setAutoPlayedAudId, selectVerse, setVersesScroll } =
     ChaptersActionCreators()
