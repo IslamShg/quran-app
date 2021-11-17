@@ -6,12 +6,6 @@ import styles from './header.module.scss'
 
 const Header = () => {
   const [searchInput, setSearchInput] = useState(null)
-  // const { setLang } = CommonActionCreators()
-
-  // const setSiteLang = (lang) => {
-  //    setLang(lang)
-  //   localStorage.setItem('lang', lang)
-  // }
 
   const handleSearch = () => {}
 
