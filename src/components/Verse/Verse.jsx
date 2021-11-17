@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useMemo, useState } from 'react'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useSelector } from 'react-redux'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
@@ -24,7 +24,7 @@ const Verse = ({
   } = verse
   const [playing, setPlaying] = useState(false)
   const [ended, setEnded] = useState()
-  const audio = useRef(new Audio(AUDIOS_URL + url))
+  const audio = useMemo(() => new Audio(AUDIOS_URL + url), [verse])
 
   const { setAutoPlayedAudId, selectVerse, setVersesScroll } =
     ChaptersActionCreators()
@@ -40,33 +40,32 @@ const Verse = ({
   }, [autoPlayedAudioId])
 
   useEffect(() => {
-    const { current } = audio
     setAudios((prev) => [...prev, { id, audio }])
 
-    current.addEventListener('ended', () => {
+    audio.addEventListener('ended', () => {
       setPlaying(false)
       setEnded(true)
     })
     return () => {
-      current.pause()
-      current.removeEventListener('ended', () => setPlaying(false))
+      audio.pause()
+      audio.removeEventListener('ended', () => setPlaying(false))
     }
   }, [audio, id, setAudios])
 
   const playVerse = () => {
     if (playing) {
       setPlaying(false)
-      return audio.current.pause()
+      return audio.pause()
     }
 
     audios.forEach(({ id, audio }) => {
-      if (!audio.current.paused) {
-        audio.current.pause()
+      if (!audio.paused) {
+        audio.pause()
         setPausedAudioId(id)
       }
     })
     setPlaying(true)
-    audio.current.play()
+    audio.play()
   }
 
   const playNext = () => {
@@ -127,4 +126,4 @@ const Verse = ({
   )
 }
 
-export default React.memo(Verse)
+export default Verse

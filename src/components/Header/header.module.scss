@@ -19,7 +19,7 @@
     }
   }
 
-  .changeLangBlock {
+  .headerRight {
     flex: 1;
     display: flex;
     align-items: center;
@@ -44,10 +44,21 @@
         }
       }
     }
-    span {
-      cursor: pointer;
-      color: #279e8b;
-      font-weight: 500;
+    .settings {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      .settingsIcon {
+        cursor: pointer;
+        font-size: 22px;
+        color: rgb(165, 158, 158);
+      }
+      span {
+        font-size: 16px;
+        cursor: pointer;
+        color: #279e8b;
+        font-weight: 500;
+      }
     }
   }
 }
