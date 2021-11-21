@@ -11,7 +11,7 @@ import TafsirBlock from '../../components/TafsirBlock/TafsirBlock'
 
 const Chapters = () => {
   const [audios, setAudios] = useState([])
-  const [pausedAudioId, setPausedAudioId] = useState(true)
+  const [pausedAudioId, setPausedAudioId] = useState(null)
   const mount = useRef(true)
   const versesRef = useRef()
 

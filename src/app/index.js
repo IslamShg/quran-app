@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import './App.css'
-
-import { Router } from './router/Router'
-import { CommonActionCreators } from './store/commonSlice'
+import { CommonActionCreators } from '../store/commonSlice'
+import './index.scss'
+import { Router } from '../router/Router'
+import { withProviders } from './providers/index'
 
 const App = () => {
   const { setLang } = CommonActionCreators()
@@ -15,4 +15,4 @@ const App = () => {
   return <Router />
 }
 
-export default App
+export default withProviders(App)
