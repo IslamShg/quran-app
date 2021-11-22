@@ -39,6 +39,8 @@ const Chapters = () => {
       fetchChapters({ lang })
       mount.current = false
     }
+
+    return () => setVersesScroll(0)
   }, [lang])
 
   useEffect(() => {
@@ -46,10 +48,6 @@ const Chapters = () => {
       versesRef.current.scrollTo(0, versesContainerScroll)
     }
   }, [versesContainerScroll, selectedVerse])
-
-  useEffect(() => {
-    return () => setVersesScroll(0)
-  }, [])
 
   useEffect(() => {
     fetchVersesByChapter({
