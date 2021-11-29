@@ -4,6 +4,10 @@
   height: 60px;
   padding: 0 20px 0 0;
 
+  // @include breakpoint-down(sm) {
+      background-color: red;
+  // }
+
   .leftSquare {
     display: flex;
     justify-content: center;

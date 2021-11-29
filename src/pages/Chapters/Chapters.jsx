@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams, useSearchParams } from 'react-router-dom'
@@ -11,16 +10,16 @@ import TafsirBlock from '../../shared/components/TafsirBlock/TafsirBlock'
 
 const Chapters = () => {
   const [audios, setAudios] = useState([])
-  const [pausedAudioId, setPausedAudioId] = useState(null)
+  const [pausedAudioId, setPausedAudioId] = useState(null);
   const mount = useRef(true)
-  const versesRef = useRef()
+const versesRef = useRef()
   
   const { chapterId } = useParams()
   const [searchParams, setSearchParams] = useSearchParams()
-  const page = searchParams.get('page')
+     const page = searchParams.get('page')
 
   const {
-    chapters,
+    chapters,ƒ
     status,
     chapterVerses,
     pagination,
