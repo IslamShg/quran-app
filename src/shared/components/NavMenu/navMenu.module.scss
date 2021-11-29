@@ -1,0 +1,19 @@
+.sidebarMenu {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 5px 0 5px;
+  @media (min-width: 600px) {
+    padding: 40px 10px 20px 10px;
+  }
+
+  .link {
+    color: #bbc7cd;
+    padding: 8px 10px;
+    &.activeLink {
+      color: #18262e;
+      background-color: #e6eaef;
+      border-radius: 6px;
+    }
+  }
+}

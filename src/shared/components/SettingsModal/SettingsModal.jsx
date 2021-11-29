@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 
-import { CommonActionCreators } from '../../store/commonSlice'
+import { CommonActionCreators } from '../../../store/commonSlice'
 import styles from './settingsModal.module.scss'
 
 const SettingsModal = ({ close }) => {

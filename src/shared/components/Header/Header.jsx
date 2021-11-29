@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import SettingsIcon from '@mui/icons-material/Settings'
 
-import QuranIcon from '../../assets/images/icons8-quran-64.png'
+import QuranIcon from '../../../assets/images/icons8-quran-64.png'
 import SettingsModal from '../SettingsModal/SettingsModal'
 import styles from './header.module.scss'
-import { CommonActionCreators } from '../../store/commonSlice'
+import { CommonActionCreators } from '../../../store/commonSlice'
 
 const Header = () => {
   const [searchInput, setSearchInput] = useState('')
@@ -14,7 +14,6 @@ const Header = () => {
 
   useEffect(() => {
     fetchReciters()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSearch = () => {}

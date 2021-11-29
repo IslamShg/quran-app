@@ -3,7 +3,10 @@
 
   .content {
     flex: 1;
-    background-color: #F6F7F9;
-    padding: 20px 10px 0 20px;
+    background-color: #f6f7f9;
+    padding: 10px;
+    @media (min-width: 600px) {
+      padding: 20px 10px 0 20px;
+    }
   }
 }

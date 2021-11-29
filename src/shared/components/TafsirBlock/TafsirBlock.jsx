@@ -3,18 +3,20 @@ import { useSelector } from 'react-redux'
 import DOMPurify from 'dompurify'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 
-import { ChaptersActionCreators } from '../../pages/Chapters/features/ChaptersSlice'
+import { ChaptersActionCreators } from '../../../pages/Chapters/features/ChaptersSlice'
 import styles from './tafsirBlock.module.scss'
 
 const TafsirBlock = ({ versesRef }) => {
-  const selectedVerse = useSelector((s) => s.chapters.selectedVerse)
-  const { selectVerse } = ChaptersActionCreators()
-  const { verse_key, words, tafsirs } = selectedVerse
-  const tafsirText = tafsirs[0]?.text
+  const { selectedVerse, tafsir, tafsirStatus } = useSelector((s) => s.chapters)
+  const { selectVerse, fetchSingleTafsir, setTafsir } = ChaptersActionCreators()
+  const { verse_key, words } = selectedVerse
 
   useEffect(() => {
     versesRef.current.scrollTo(0, 0)
-  }, [versesRef])
+
+    fetchSingleTafsir({ verse_key: selectedVerse.verse_key })
+    return () => setTafsir(null)
+  }, [])
 
   return (
     <div className={styles.container}>
@@ -41,10 +43,14 @@ const TafsirBlock = ({ versesRef }) => {
 
       <div className={styles.tafsirBlock}>
         <span className={styles.title}>Verse Tafsir:</span>
-        <span
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(tafsirText) }}
-          className={styles.tafsirsText}
-        />
+        {tafsirStatus === 'success' ? (
+          <span
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(tafsir) }}
+            className={styles.tafsirsText}
+          />
+        ) : (
+          <p>Loading...</p>
+        )}
       </div>
     </div>
   )

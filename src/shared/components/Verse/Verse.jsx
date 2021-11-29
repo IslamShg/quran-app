@@ -5,8 +5,8 @@ import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
 
 import styles from './verse.module.scss'
-import { AUDIOS_URL } from '../../api'
-import { ChaptersActionCreators } from '../../pages/Chapters/features/ChaptersSlice'
+import { AUDIOS_URL } from '../../../api'
+import { ChaptersActionCreators } from '../../../pages/Chapters/features/ChaptersSlice'
 
 const Verse = ({
   verse,

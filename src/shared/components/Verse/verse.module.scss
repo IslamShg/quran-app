@@ -7,6 +7,10 @@
   transition: 0.2s ease-in-out;
   box-shadow: 4px 5px 5px -1px rgb(34 60 80 / 20%);
 
+  @media (max-width: 600px) {
+    padding: 20px 20px 10px 10px;
+  }
+
   &.active {
   }
 
@@ -49,6 +53,11 @@
     border-top: 1px solid #edeff0;
     margin-top: 40px;
     padding-top: 20px;
+
+    @media (max-width: 600px) {
+      margin-top: 15px;
+      padding-top: 20px;
+    }
 
     .resumeVerseIcon {
       font-size: 28px;
