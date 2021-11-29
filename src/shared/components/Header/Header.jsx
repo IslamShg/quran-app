@@ -14,7 +14,6 @@ const Header = () => {
 
   useEffect(() => {
     fetchReciters()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSearch = () => {}

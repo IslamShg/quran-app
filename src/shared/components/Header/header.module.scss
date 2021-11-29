@@ -4,15 +4,14 @@
   height: 60px;
   padding: 0 20px 0 0;
 
-  // @include breakpoint-down(sm) {
-      background-color: red;
-  // }
-
   .leftSquare {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 65px;
+    width: 55px;
+    @media (min-width: 600px) {
+      width: 65px;
+    }
     background: #279e8b;
     .bookIcon {
       color: #fff;
@@ -24,7 +23,9 @@
   }
 
   .headerRight {
-    flex: 1;
+    @media (min-width: 600px) {
+      flex: 1;
+    }
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -46,6 +47,9 @@
         &::placeholder {
           color: #b0bec7;
         }
+      }
+      @media (max-width: 600px) {
+        display: none;
       }
     }
     .settings {
