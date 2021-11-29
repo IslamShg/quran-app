@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux'
 
 import { asyncActionCreators } from './asyncActions'
 
-const { fetchChapters, fetchVersesByChapter } = asyncActionCreators
+const { fetchChapters, fetchVersesByChapter, fetchSingleTafsir } =
+  asyncActionCreators
 
 const initialState = {
   chapters: [],
@@ -19,7 +20,9 @@ const initialState = {
   tajweedChapterVerses: [],
   autoPlayedAudioId: null,
   selectedVerse: null,
-  versesContainerScroll: null
+  versesContainerScroll: null,
+  tafsir: null,
+  tafsirStatus: 'idle',
 }
 
 export const chaptersSlice = createSlice({
@@ -37,7 +40,10 @@ export const chaptersSlice = createSlice({
     },
     setVersesScroll(state, { payload }) {
       state.versesContainerScroll = payload
-    }
+    },
+    setTafsir(state, { payload }) {
+      state.tafsir = payload
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchChapters.pending, (state) => {
@@ -63,6 +69,13 @@ export const chaptersSlice = createSlice({
         next_page: payload.pagination.next_page,
       }
       state.versesStatus = 'completed'
+    })
+    builder.addCase(fetchSingleTafsir.pending, (state) => {
+      state.tafsirStatus = 'loading'
+    })
+    builder.addCase(fetchSingleTafsir.fulfilled, (state, { payload }) => {
+      state.tafsir = payload
+      state.tafsirStatus = 'success'
     })
   },
 })

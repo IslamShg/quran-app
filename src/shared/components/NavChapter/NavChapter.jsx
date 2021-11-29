@@ -3,9 +3,11 @@ import { NavLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import styles from './navChapter.module.scss'
+import { ChaptersActionCreators } from '../../../pages/Chapters/features/ChaptersSlice'
 
 const NavChapter = ({ chapter, setAudios, versesRef }) => {
   const { lang } = useSelector((s) => s.common)
+  const { selectVerse } = ChaptersActionCreators()
 
   return (
     <NavLink
@@ -13,6 +15,7 @@ const NavChapter = ({ chapter, setAudios, versesRef }) => {
       onClick={() => {
         versesRef.current && versesRef.current.scrollTo(0, 0)
         setAudios([])
+        selectVerse(null)
       }}
       className={({ isActive }) =>
         isActive
