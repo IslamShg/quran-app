@@ -1,10 +1,10 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import Header from '../../components/Header/Header'
 
 import Chapters from '../Chapters/Chapters'
 import styles from './main.module.scss'
-import NavMenu from '../../components/NavMenu/NavMenu'
+import NavMenu from '../../shared/components/NavMenu/NavMenu'
+import Header from '../../shared/components/Header/Header'
 
 const Main = () => {
   return (

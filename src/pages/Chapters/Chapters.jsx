@@ -5,18 +5,20 @@ import { useParams, useSearchParams } from 'react-router-dom'
 
 import { ChaptersActionCreators } from './features/ChaptersSlice'
 import styles from './chapters.module.scss'
-import Verse from '../../components/Verse/Verse'
-import ChaptersList from '../../components/ChaptersList/ChaptersList'
-import TafsirBlock from '../../components/TafsirBlock/TafsirBlock'
+import Verse from '../../shared/components/Verse/Verse'
+import ChaptersList from '../../shared/components/ChaptersList/ChaptersList'
+import TafsirBlock from '../../shared/components/TafsirBlock/TafsirBlock'
 
 const Chapters = () => {
   const [audios, setAudios] = useState([])
   const [pausedAudioId, setPausedAudioId] = useState(null)
   const mount = useRef(true)
   const versesRef = useRef()
+  
+  const { chapterId } = useParams()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const page = searchParams.get('page')
 
-  const { fetchChapters, fetchVersesByChapter, setVersesScroll } =
-    ChaptersActionCreators()
   const {
     chapters,
     status,
@@ -27,10 +29,8 @@ const Chapters = () => {
     versesContainerScroll,
   } = useSelector((s) => s.chapters)
   const { lang, selectedReciterId } = useSelector((s) => s.common)
-
-  const { chapterId } = useParams()
-  const [searchParams, setSearchParams] = useSearchParams()
-  const page = searchParams.get('page')
+  const { fetchChapters, fetchVersesByChapter, setVersesScroll } =
+    ChaptersActionCreators()
 
   useEffect(() => {
     versesRef.current && versesRef.current.scrollTo(0, 0)
@@ -39,7 +39,6 @@ const Chapters = () => {
       fetchChapters({ lang })
       mount.current = false
     }
-
     return () => setVersesScroll(0)
   }, [lang])
 
